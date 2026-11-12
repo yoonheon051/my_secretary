@@ -1,4 +1,4 @@
-﻿# ---- 비밀 값 (절대 올리지 않기) ----
+# ---- 비밀 값 (절대 올리지 않기) ----
 *.dat
 client_secret.json
 calendar_token.dat
@@ -17,8 +17,8 @@ error.log
 character.png
 character_*.png
 character.json
-pokemon/*
-!pokemon/_양식/
+characters/*
+!characters/_양식/
 
 # ---- 백업·임시 ----
 _보관/

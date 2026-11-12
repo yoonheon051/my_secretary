@@ -16,7 +16,7 @@ Windows 바탕화면 위를 돌아다니는 마스코트 비서예요. 걷고, �
 - **날씨**: 퇴근길(18~19시) 날씨 안내, 지금 비가 오면 우산을 들고 있어요.
 - **편의 기능**: 18:30 이후 자리를 비우면 PC 자동 종료(켜고 끄기 가능), 점심·퇴근 시간 응원 포즈, Claude Code 작업 상태 표시.
 - **단축키**: `Ctrl+Alt+N` 할 일 빠른 추가, `Ctrl+Alt+K` 클로드에게 묻기, `Ctrl+Alt+H` 숨기기, `Ctrl+Alt+D` 일일 업무 창.
-- **포켓몬 도감**: `pokemon/` 폴더에 그림과 설정을 넣으면 새 캐릭터를 키울 수 있어요. 방법은 [`pokemon/_양식/README.txt`](pokemon/_양식/README.txt).
+- **포켓몬 도감**: `characters/` 폴더에 그림과 설정을 넣으면 새 캐릭터를 키울 수 있어요. 방법은 [`characters/_양식/README.txt`](characters/_양식/README.txt).
 
 ## 실행 환경
 
@@ -45,7 +45,7 @@ Windows 바탕화면 위를 돌아다니는 마스코트 비서예요. 걷고, �
 | `character_sleep.png`, `character_hungry.png`, `character_grumpy.png` | 자는 모습, 배고픈 모습, 뾰로통한 모습 (선택) |
 | `character.json` | 눈·입 좌표 등 설정 |
 
-그림 크기·좌표 지정 방법은 [`pokemon/_양식/README.txt`](pokemon/_양식/README.txt)의 설명을 따라요(새 캐릭터용 설명이지만 같은 방식이에요).
+그림 크기·좌표 지정 방법은 [`characters/_양식/README.txt`](characters/_양식/README.txt)의 설명을 따라요(새 캐릭터용 설명이지만 같은 방식이에요).
 
 **저작권 안내**: 포켓몬과 캐릭터 이름은 닌텐도·게임프리크·크리처스·포켓몬 컴퍼니의 것이에요. 이 프로젝트는 비공식 팬 프로젝트이고 이들과 관련이 없어요. 포켓몬 그림을 쓴다면 개인적으로만 쓰고 다시 배포하지 마세요.
 
@@ -72,7 +72,7 @@ mascot/
   species.py            포켓몬(캐릭터) 정의
   notion.py, google_calendar.py, mail.py, slack.py, weather.py   외부 서비스
   pet/                  마스코트 동작 (그리기, 걷기, 볼, 도감, 일일 업무 창 등)
-pokemon/_양식/          새 캐릭터 추가 양식과 설명
+characters/_양식/       새 캐릭터 추가 양식과 설명
 ```
 
 ## 알아 둘 점

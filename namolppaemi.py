@@ -28,7 +28,7 @@ character.json 에 눈 위치를 적어 두면 깜빡이기/자기 표정이 그
 파일 구성 (수정할 때 찾아가기 편하게 나눠 둠):
   namolppaemi.py        이 파일. 시작점만 있음
   mascot/constants.py   숫자·간격·경로·말 모음 같은 설정 상수
-  mascot/species.py     포켓몬 정의 (pokemon 폴더 읽기), 볼 단계
+  mascot/species.py     포켓몬 정의 (characters 폴더 읽기), 볼 단계
   mascot/winapi.py      Windows 창·모니터·단축키 도구
   mascot/notion.py, google_calendar.py, mail.py, slack.py, weather.py, holidays.py   바깥 서비스 연결
   mascot/ui.py          창 색감·날짜 위젯,  sprites.py 날개·열매,  secrets_store.py 토큰 암호화 저장

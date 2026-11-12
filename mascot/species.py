@@ -1,4 +1,4 @@
-"""포켓몬 정의: 기본 포켓몬 + pokemon 폴더의 pokemon.json 읽기, 볼 단계, 저장된 마지막 포켓몬"""
+"""포켓몬 정의: 기본 포켓몬 + characters 폴더의 species.json 읽기, 볼 단계, 저장된 마지막 포켓몬"""
 
 import json
 import os
@@ -7,9 +7,9 @@ from .constants import CHAR_JSON, CHAR_PNG, HERE, SAVE_JSON, resource
 
 
 # ---------- 포켓몬 ----------
-# 기본 나몰빼미 + pokemon\<이름>\pokemon.json 이 있는 폴더마다 한 마리. 폴더 이름이 _ 로 시작하면 양식(건너뜀).
+# 기본 나몰빼미 + characters\<이름>\species.json 이 있는 폴더마다 한 마리. 폴더 이름이 _ 로 시작하면 양식(건너뜀).
 # 한 마리마다 친밀도·배부름·기분(save.json 의 pets)과 볼 단계(balls)를 따로 가짐.
-SPECIES_DIR = os.path.join(HERE, "pokemon")
+SPECIES_DIR = os.path.join(HERE, "characters")
 ROWLET_ID = "rowlet"
 TARGET_H = 110  # 평소 모습 그림의 기준 높이(px). 이보다 훨씬 큰 그림은 이 높이로 줄여서 씀
 # 볼 단계: 친밀도 레벨이 level 이상이면 그 볼. style: plain / super / hyper / master (뚜껑 무늬), colors: 뚜껑 색, 무늬 색, 반짝임 색, 가운데 띠 색(없으면 null)
@@ -40,7 +40,7 @@ def read_json(path):
 
 
 def parse_balls(raw):
-    """pokemon.json 의 balls → 레벨 순 목록. 잘못됐으면 기본 볼"""
+    """species.json 의 balls → 레벨 순 목록. 잘못됐으면 기본 볼"""
     out = []
     for b in raw or []:
         try:
@@ -78,7 +78,7 @@ def species_defs():
         folder = os.path.join(SPECIES_DIR, name)
         if name[:1] in "_." or not os.path.isdir(folder) or name == ROWLET_ID:
             continue
-        d = read_json(os.path.join(folder, "pokemon.json"))
+        d = read_json(os.path.join(folder, "species.json"))
         if d is None:
             continue
         img = os.path.join(folder, d.get("image") or "character.png")

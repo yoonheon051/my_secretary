@@ -196,13 +196,13 @@ class PokedexMixin:
         add.grid(row=3, column=0, columnspan=2, sticky="we", pady=(12, 0))
         tk.Frame(add, height=1, bg=UI_LINE).pack(fill="x", pady=(0, 8))
         tk.Label(add, font=small, fg="#666", justify="left", anchor="w",
-                 text="새 포켓몬은 pokemon 폴더의 _양식 폴더를 복사해 이름을 바꾸고, pokemon.json 을 고친 뒤\n"
+                 text="새 포켓몬은 characters 폴더의 _양식 폴더를 복사해 이름을 바꾸고, species.json 을 고친 뒤\n"
                       "평소 모습 character.png 를 넣으면 도감에 나타나요. (자세한 설명은 _양식 안의 README.txt)").pack(fill="x")
 
         def open_dir():
             os.makedirs(SPECIES_DIR, exist_ok=True)
             os.startfile(SPECIES_DIR)
-        tk.Button(add, text="pokemon 폴더 열기", command=open_dir).pack(anchor="w", pady=(6, 0))
+        tk.Button(add, text="characters 폴더 열기", command=open_dir).pack(anchor="w", pady=(6, 0))
         apply_theme(d)
         select(next((e for e in entries if e["current"]), entries[0]))  # 처음엔 함께하는 포켓몬
         d.focus_force()
