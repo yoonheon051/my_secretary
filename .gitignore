@@ -1,0 +1,31 @@
+﻿# ---- 비밀 값 (절대 올리지 않기) ----
+*.dat
+client_secret.json
+calendar_token.dat
+notion_client.dat
+notion_token.dat
+slack_token.dat
+mail.dat
+slack_manifest.yaml
+
+# ---- 개인 저장 데이터·기록 ----
+save.json
+holidays.json
+error.log
+
+# ---- 포켓몬 캐릭터 그림 (저작권: 각자 자기 그림을 넣어 쓰기) ----
+character.png
+character_*.png
+character.json
+pokemon/*
+!pokemon/_양식/
+
+# ---- 백업·임시 ----
+_보관/
+_*_check.png
+*.lnk
+__pycache__/
+*.pyc
+
+# ---- 내 개인 설정 ----
+settings_local.py
