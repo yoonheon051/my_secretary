@@ -11,7 +11,7 @@ class ScreenMixin:
         """모니터들의 작업 영역을 읽음.
         self.left/right: 모든 모니터를 합친 가로 범위 (여기까지 돌아다닐 수 있음)
         self.top/bottom, self.mon_left/mon_right: 지금 나몰빼미가 있는 모니터 (pick_monitor 가 매 틱 맞춤)
-        self.home_area: 주 모니터 (둥지 집이 있는 곳)"""
+        self.home_area: 주 모니터 (몬스터볼 집이 있는 곳)"""
         mons = monitor_areas() or [(0, 0, self.root.winfo_screenwidth(), self.root.winfo_screenheight(), True)]
         self.monitors = [m[:4] for m in mons]
         self.home_area = next((m[:4] for m in mons if m[4]), self.monitors[0])

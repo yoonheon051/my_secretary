@@ -119,9 +119,9 @@ SHUTDOWN_IDLE_MIN = 10    # 입력이 이만큼 없으면 자리를 비운 것�
 SHUTDOWN_WARN_SEC = 180   # 예고 후 실제로 끄기까지
 
 # Claude Code 연동: ~/.claude/settings.json 의 훅이 claude_hook.py 로 이 파일에 작업 상태를 적음
-# (OneDrive 동기화가 파일을 잡지 않게 %LOCALAPPDATA%\secretary 에 둠. claude_hook.py 와 같은 경로)
+# (OneDrive 동기화가 파일을 잡지 않게 %LOCALAPPDATA%\my_secretary 에 둠. claude_hook.py 와 같은 경로)
 CLAUDE_STATUS = os.path.join(os.environ.get("LOCALAPPDATA") or os.path.expanduser("~"),
-                             "secretary", "claude_status.json")
+                             "my_secretary", "claude_status.json")
 CLAUDE_CHECK_SEC = 0.5
 CLAUDE_STALE_SEC = 6 * 3600  # 이보다 오래 소식 없는 '작업 중' 세션은 무시
 

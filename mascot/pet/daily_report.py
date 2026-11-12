@@ -205,7 +205,7 @@ class DailyReportMixin:
     def pomo_start(self):
         self.pomo_phase = "focus"
         self.pomo_end = time.time() + FOCUS_MIN * UNIT
-        self.say("전 좀 잘게요", 4)  # 둥지로 가는 건 update_ball 이 함
+        self.say("전 좀 잘게요", 4)  # 몬스터볼로 가는 건 update_ball 이 함
 
     def pomo_stop(self):
         self.pomo_phase = None

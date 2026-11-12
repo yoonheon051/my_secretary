@@ -10,7 +10,7 @@ from ..winapi import find_platforms, user32
 class RoamingMixin:
     # ---------- 집 / 놀러 간 곳 ----------
     def anchor(self):
-        """지금 머무를 곳 (발판, 기준 x). 잠깐 놀러 간 곳이 있으면 그곳, 아니면 바닥의 둥지 (발판 없음 = 바닥)"""
+        """지금 머무를 곳 (발판, 기준 x). 잠깐 놀러 간 곳이 있으면 그곳, 아니면 바닥의 몬스터볼 (발판 없음 = 바닥)"""
         v = self.visit
         if v and time.time() < v["until"] and (v["surface"] is None or self.surf_rect(v["surface"])):
             return v["surface"], v["dx"]
@@ -112,7 +112,7 @@ class RoamingMixin:
 
     def fly_home(self):
         """메뉴 '집으로 돌아가기': 어디에 있든 (다른 모니터·앱 창 위·공중·자유롭게 돌아다니는 중에도)
-        날아서 바닥의 둥지 집으로 돌아가 내려앉음"""
+        날아서 바닥의 몬스터볼 집으로 돌아가 내려앉음"""
         if self.state in ("drag", "flutter"):  # 집어 든 중이거나 이미 날아서 집으로 가는 중
             return
         self.visit = None  # 놀러 간 곳이 있으면 취소. 안 그러면 놀러 간 곳을 '집'으로 봄
