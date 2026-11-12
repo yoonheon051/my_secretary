@@ -1,4 +1,4 @@
-# my_secretary (나몰빼미)
+# my_secretary
 
 Windows 바탕화면 위를 돌아다니는 마스코트 비서예요. 걷고, 날고, 자고, 배고파하면서 일정·할 일·메일·날씨를 말풍선으로 알려 줘요. 파이썬 `tkinter`만 쓰고, 외부 서비스 연결은 모두 선택이에요.
 
@@ -16,7 +16,7 @@ Windows 바탕화면 위를 돌아다니는 마스코트 비서예요. 걷고, �
 - **날씨**: 퇴근길(18~19시) 날씨 안내, 지금 비가 오면 우산을 들고 있어요.
 - **편의 기능**: 18:30 이후 자리를 비우면 PC 자동 종료(켜고 끄기 가능), 점심·퇴근 시간 응원 포즈, Claude Code 작업 상태 표시.
 - **단축키**: `Ctrl+Alt+N` 할 일 빠른 추가, `Ctrl+Alt+K` 클로드에게 묻기, `Ctrl+Alt+H` 숨기기, `Ctrl+Alt+D` 일일 업무 창.
-- **포켓몬 도감**: `characters/` 폴더에 그림과 설정을 넣으면 새 캐릭터를 키울 수 있어요. 방법은 [`characters/_양식/README.txt`](characters/_양식/README.txt).
+- **도감**: `characters/` 폴더에 그림과 설정을 넣으면 새 캐릭터를 키울 수 있어요. 방법은 [`characters/_양식/README.txt`](characters/_양식/README.txt).
 
 ## 실행 환경
 
