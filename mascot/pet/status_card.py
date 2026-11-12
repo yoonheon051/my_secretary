@@ -48,7 +48,7 @@ class StatusCardMixin:
         title.pack(side="left")
         title.bind("<Enter>", lambda e: title.config(font=("Malgun Gothic", 11, "bold underline")))  # 눌러서 도감을 여는 글자
         title.bind("<Leave>", lambda e: title.config(font=("Malgun Gothic", 11, "bold")))
-        title.bind("<Button-1>", lambda e: (self.close_status(), self.root.after(30, self.show_pokedex)))
+        title.bind("<Button-1>", lambda e: (self.close_status(), self.root.after(30, self.show_collection)))
         self.card_lv = tk.Label(head, font=("Malgun Gothic", 8, "bold"), bg=UI_ACCENT, fg="white", padx=6,
                                 cursor="hand2")
         self.card_lv.pack(side="left", padx=(6, 0))

@@ -29,3 +29,5 @@ __pycache__/
 
 # ---- 내 개인 설정 ----
 settings_local.py
+
+watchface/

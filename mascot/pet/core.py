@@ -29,7 +29,7 @@ from .roaming import RoamingMixin
 from .main_loop import MainLoopMixin
 from .pomodoro import PomodoroMixin
 from .quick_actions import QuickActionsMixin
-from .pokedex import PokedexMixin
+from .collection import CollectionMixin
 from .daily_report import DailyReportMixin
 from .input_events import InputEventsMixin
 from .bubble import BubbleMixin
@@ -52,7 +52,7 @@ class Rowlet(
         MainLoopMixin,
         PomodoroMixin,
         QuickActionsMixin,
-        PokedexMixin,
+        CollectionMixin,
         DailyReportMixin,
         InputEventsMixin,
         BubbleMixin,
@@ -95,12 +95,12 @@ class Rowlet(
         self.perch_var = tk.BooleanVar(value=True)
         self.roam_var = tk.BooleanVar(value=False)  # True 면 집 없이 화면 전체를 돌아다님
         self.wander_var = tk.BooleanVar(value=False)  # True 면 집 모드에서도 가끔 다른 모니터로 놀러 감 (기본은 끌어다 놓아야만 감)
-        # 잠깐 놀러 간 곳: {"surface": 창/None, "dx": 기준 x, "until": 끝나는 시각}. None 이면 바닥의 몬스터볼 집
+        # 잠깐 놀러 간 곳: {"surface": 창/None, "dx": 기준 x, "until": 끝나는 시각}. None 이면 바닥의 둥지 집
         self.visit = None
         self.menu_open = False
         self.hidden = False  # Ctrl+Alt+H 로 화면에서 치워 둔 상태
         self.dialog = None  # 열려 있는 설정 창
-        # 몬스터볼: 재우기·퇴근 종료 예고 때 나몰빼미가 들어가 있는 곳
+        # 둥지: 재우기·퇴근 종료 예고 때 나몰빼미가 들어가 있는 곳
         self.in_ball = False        # 볼 안에 들어가 있는지 (이때는 나몰빼미 창을 숨김)
         self.ball_fx = None         # 볼 연출 {"kind": open/shake/burst, "t0": 시작 시각}
         self.ball_sig = None        # 지난번에 그린 볼 모습 (같으면 다시 안 그림)

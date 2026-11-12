@@ -23,10 +23,10 @@
   },
 
   "balls": [
-    {"level": 1,  "name": "몬스터볼",   "style": "plain",  "colors": ["#e5322d", null,      "#ff9a92", null]},
-    {"level": 10, "name": "슈퍼볼",     "style": "super",  "colors": ["#2f6fd8", "#e5322d", "#a9c8ff", null]},
-    {"level": 20, "name": "하이퍼볼",   "style": "hyper",  "colors": ["#2d2d33", "#ffd23f", "#9a9aab", null]},
-    {"level": 30, "name": "마스터볼",   "style": "master", "colors": ["#8e44c6", "#ff8fdc", "#d9b3f5", null]},
-    {"level": 40, "name": "프리미어볼", "style": "plain",  "colors": ["#f6f6f6", null,      "#dcdcdc", "#d9382f"]}
+    {"level": 1,  "name": "풀잎 둥지", "style": "plain",  "colors": ["#7cae4f", null,      "#c5e29b", null]},
+    {"level": 10, "name": "나무 둥지", "style": "super",  "colors": ["#9a6a3a", "#e8c88a", "#d7b48a", null]},
+    {"level": 20, "name": "솜털 둥지", "style": "hyper",  "colors": ["#8fa7c4", "#ffffff", "#c9d6e6", null]},
+    {"level": 30, "name": "달빛 둥지", "style": "master", "colors": ["#3f4b7a", "#f4d35e", "#9aa5d0", null]},
+    {"level": 40, "name": "황금 둥지", "style": "plain",  "colors": ["#f2c94c", null,      "#fff3b0", "#b8860b"]}
   ]
 }

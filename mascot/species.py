@@ -12,13 +12,13 @@ from .constants import CHAR_JSON, CHAR_PNG, HERE, SAVE_JSON, resource
 SPECIES_DIR = os.path.join(HERE, "characters")
 ROWLET_ID = "rowlet"
 TARGET_H = 110  # 평소 모습 그림의 기준 높이(px). 이보다 훨씬 큰 그림은 이 높이로 줄여서 씀
-# 볼 단계: 친밀도 레벨이 level 이상이면 그 볼. style: plain / super / hyper / master (뚜껑 무늬), colors: 뚜껑 색, 무늬 색, 반짝임 색, 가운데 띠 색(없으면 null)
+# 둥지 단계: 친밀도 레벨이 level 이상이면 그 둥지. style: plain 무늬 없음 / super 양옆 띠 / hyper 띠 셋 / master 동그란 달 무늬 (뚜껑 무늬), colors: 뚜껑 색, 무늬 색, 반짝임 색, 가운데 띠 색(없으면 null)
 DEFAULT_BALLS = (
-    {"level": 1, "name": "몬스터볼", "style": "plain", "colors": ["#e5322d", None, "#ff9a92", None]},
-    {"level": 10, "name": "슈퍼볼", "style": "super", "colors": ["#2f6fd8", "#e5322d", "#a9c8ff", None]},
-    {"level": 20, "name": "하이퍼볼", "style": "hyper", "colors": ["#2d2d33", "#ffd23f", "#9a9aab", None]},
-    {"level": 30, "name": "마스터볼", "style": "master", "colors": ["#8e44c6", "#ff8fdc", "#d9b3f5", None]},
-    {"level": 40, "name": "프리미어볼", "style": "plain", "colors": ["#f6f6f6", None, "#dcdcdc", "#d9382f"]},
+    {"level": 1, "name": "풀잎 둥지", "style": "plain", "colors": ["#7cae4f", None, "#c5e29b", None]},
+    {"level": 10, "name": "나무 둥지", "style": "super", "colors": ["#9a6a3a", "#e8c88a", "#d7b48a", None]},
+    {"level": 20, "name": "솜털 둥지", "style": "hyper", "colors": ["#8fa7c4", "#ffffff", "#c9d6e6", None]},
+    {"level": 30, "name": "달빛 둥지", "style": "master", "colors": ["#3f4b7a", "#f4d35e", "#9aa5d0", None]},
+    {"level": 40, "name": "황금 둥지", "style": "plain", "colors": ["#f2c94c", None, "#fff3b0", "#b8860b"]},
 )
 BALL_STYLES = ("plain", "super", "hyper", "master")
 # 배고픈·자는·뾰로통한 모습은 평소 그림 위에 눈과 입 모양만 바꿔 그림 (그림 파일을 따로 주면 그 그림을 씀)

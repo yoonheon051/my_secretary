@@ -10,7 +10,7 @@ from ..species import SPECIES_DIR, species_defs
 from ..ui import UI_ACCENT, UI_FIELD, UI_HOVER, UI_LINE, UI_TRACK, apply_theme
 
 
-class PokedexMixin:
+class CollectionMixin:
     # ---------- 포켓몬 도감 · 포켓몬 바꾸기 ----------
     DEX_TYPE_COLORS = {"노말": "#a8a878", "불꽃": "#f08030", "물": "#6890f0", "전기": "#f8d030", "풀": "#78c850",
                        "얼음": "#98d8d8", "격투": "#c03028", "독": "#a040a0", "땅": "#e0c068", "비행": "#a890f0",
@@ -64,7 +64,7 @@ class PokedexMixin:
         self.say("나왔어요!", 4)
         return True
 
-    def pokedex_entries(self):
+    def collection_entries(self):
         """도감에 올릴 포켓몬들 (번호 순)"""
         self.species_defs = species_defs()
         out = []
@@ -73,12 +73,12 @@ class PokedexMixin:
         out.sort(key=lambda e: (e["no"] is None, e["no"] or 0, e["name"]))
         return out
 
-    def show_pokedex(self):
+    def show_collection(self):
         if self.dex_win is not None and self.dex_win.winfo_exists():
             self.dex_win.lift()
             self.dex_win.focus_force()
             return
-        entries = self.pokedex_entries()
+        entries = self.collection_entries()
         d = self.dialog = self.dex_win = tk.Toplevel(self.root)
         d.title("포켓몬 도감")
         d.attributes("-topmost", True)
@@ -118,7 +118,7 @@ class PokedexMixin:
             if self.switch_species(e["id"]):
                 self.dex_win.destroy()
                 self.dex_win = None
-                self.root.after(100, self.show_pokedex)
+                self.root.after(100, self.show_collection)
 
         def select(e):
             for k, (row, lab) in rows.items():

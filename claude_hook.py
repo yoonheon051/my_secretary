@@ -5,14 +5,14 @@ Claude Code 가 넘겨주는 JSON(stdin)을 읽어서 상태 파일에 세션 �
 작업 시작은 UserPromptSubmit(메시지 보냄)과 PreToolUse(도구 사용) 중 먼저 오는 것으로 봄.
 나몰빼미는 이 파일이 바뀌었는지만 보고 반응함 (고민하는 모습 / 작업 끝 알림 / 확인 대기 알림).
 
-상태 파일은 OneDrive 밖(%LOCALAPPDATA%\\namolppaemi)에 둠: 동기화가 파일을 잡고 있으면 덮어쓰기가 실패해서.
+상태 파일은 OneDrive 밖(%LOCALAPPDATA%\\secretary)에 둠: 동기화가 파일을 잡고 있으면 덮어쓰기가 실패해서.
 """
 import json
 import os
 import sys
 import time
 
-DATA = os.path.join(os.environ.get("LOCALAPPDATA") or os.path.expanduser("~"), "namolppaemi")
+DATA = os.path.join(os.environ.get("LOCALAPPDATA") or os.path.expanduser("~"), "secretary")
 STATUS = os.path.join(DATA, "claude_status.json")
 LOG = os.path.join(DATA, "claude_hook.log")  # 훅이 불린 기록 (문제 확인용, 커지면 비움)
 KEEP_EVENTS = 20

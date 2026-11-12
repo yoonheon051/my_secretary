@@ -4,8 +4,8 @@ import ctypes
 from ctypes import wintypes
 
 
-SINGLE_MUTEX = "Local\\namolppaemi_single_instance"  # 이 이름의 잠금을 가진 나몰빼미가 있으면 또 켜지지 않음
-WAKE_EVENT = "Local\\namolppaemi_wake"               # 두 번째로 켜려고 하면 이미 켜진 나몰빼미에게 알림
+SINGLE_MUTEX = "Local\\secretary_single_instance"  # 이 이름의 잠금을 가진 나몰빼미가 있으면 또 켜지지 않음
+WAKE_EVENT = "Local\\secretary_wake"             # 두 번째로 켜려고 하면 이미 켜진 나몰빼미에게 알림
 
 
 def already_running():
