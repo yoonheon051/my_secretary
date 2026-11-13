@@ -171,6 +171,8 @@ class BallHomeMixin:
         w = self.ball_size[0] if w is None else w
         zroom = self.ball_zroom if zroom is None else zroom
         cx, cy = w / 2 + tilt * 0.12 * S, zroom + r
+        if round(lid) == 0:  # 0.5px 도 안 열린 건 닫힌 것: 화면 갱신 비교(round(lid))와 같은 기준으로 맞춤
+            lid = 0.0
         cl = cy - lid  # 뚜껑 중심의 높이
         f = min(1.0, lid / (self.LID_OPEN * S)) if lid > 0 else 0.0  # 열린 정도 0~1
         if f > 0:
