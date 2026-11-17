@@ -115,7 +115,7 @@ class StatusCardMixin:
 
     def toggle_ball_preview(self):
         """상태 카드의 'Lv · 볼 이름' 배지를 누르면 지금 볼과 다음에 바뀔 볼을 보여 주고, 다시 누르면 접음"""
-        if self.status_win is None:
+        if self.status_win is None or not self.has_ball:  # 볼이 없는 캐릭터는 보여 줄 볼이 없음
             return
         if self.card_ball is not None:
             self.card_ball.destroy()
@@ -208,7 +208,8 @@ class StatusCardMixin:
         if self.status_win is None:
             return
         self.card_drawn = time.time()
-        self.card_lv.config(text=f"Lv.{self.level()} · {self.BALL_TIERS[self.ball_tier()][1]} ▾")
+        self.card_lv.config(text=f"Lv.{self.level()} · {self.BALL_TIERS[self.ball_tier()][1]} ▾" if self.has_ball
+                            else f"Lv.{self.level()}")
         self.update_ball_note()
         self.card_mood.config(text=self.status_summary())
         for key, (c, rect, val, color, bw, bh) in self.card_bars.items():

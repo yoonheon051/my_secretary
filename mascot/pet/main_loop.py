@@ -20,7 +20,8 @@ class MainLoopMixin:
         움직이는 중, 열매가 있을 때, 창 위에 있을 때(창을 옮기면 따라가야 함), 상태 카드·말풍선 효과 중엔 아님"""
         return (self.state in ("idle", "sleep", "focus") and not self.items and not self.dragging
                 and self.surface is None and self.status_win is None
-                and time.time() >= self.heart_until and self.ball_fx is None)
+                and time.time() >= self.heart_until and self.ball_fx is None
+                and not self.animated_pose())  # 움직이는 그림(여러 장)을 보여 줄 땐 장을 넘겨야 함
 
     def toggle_hidden(self):
         """Ctrl+Alt+H: 회의·발표 중에 나몰빼미를 화면에서 잠깐 치웠다가 다시 나오게 함"""
@@ -33,7 +34,8 @@ class MainLoopMixin:
                 w.withdraw()
         else:
             self.root.deiconify()
-            self.ball_win.deiconify()
+            if self.has_ball:  # 볼이 없는 캐릭터는 볼을 다시 띄우지 않음
+                self.ball_win.deiconify()
             for it in self.items:
                 it.win.deiconify()
             self.last_pos = None

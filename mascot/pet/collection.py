@@ -29,7 +29,7 @@ class CollectionMixin:
         lv = 1 + int(aff // 10)
         balls = self.species_defs[sid]["balls"]
         ball = max((b for b in balls if lv >= b["level"]), key=lambda b: b["level"], default=balls[0])
-        return lv, ball["name"], aff
+        return lv, (ball["name"] if self.species_defs[sid].get("ball", True) else None), aff  # 볼이 없는 캐릭터는 None
 
     def switch_species(self, sid):
         """다른 포켓몬과 함께하기: 지금 포켓몬의 기록을 저장하고, 새 포켓몬이 볼에서 나옴. 바꿨으면 True"""
@@ -88,7 +88,7 @@ class CollectionMixin:
         f.pack()
         tk.Label(f, text="포켓몬 도감", font=("Malgun Gothic", 12, "bold")).grid(row=0, column=0, columnspan=2, sticky="w")
         lv, ball, _ = self.species_record(self.species_id)
-        tk.Label(f, font=small, fg="#666", text=f"함께하는 포켓몬: {self.species['name']} · Lv.{lv} · {ball}").grid(
+        tk.Label(f, font=small, fg="#666", text=f"함께하는 포켓몬: {self.species['name']} · Lv.{lv}" + (f" · {ball}" if ball else "")).grid(
             row=1, column=0, columnspan=2, sticky="w", pady=(0, 8))
         side = tk.Frame(f, bg=UI_LINE, padx=1, pady=1)
         side.grid(row=2, column=0, sticky="ns")
@@ -145,7 +145,7 @@ class CollectionMixin:
                      justify="left").grid(row=4, column=0, columnspan=2, sticky="w", pady=(10, 0))
             rec = self.species_record(e["id"])
             tk.Label(detail, font=small, fg="#666",
-                     text=(f"키운 기록: Lv.{rec[0]} · {rec[1]}" if rec
+                     text=(f"키운 기록: Lv.{rec[0]}" + (f" · {rec[1]}" if rec[1] else "") if rec
                            else "아직 함께한 적 없어요")).grid(row=5, column=0, columnspan=2, sticky="w", pady=(8, 0))
             if rec:  # 배부름·기분·친밀도 막대 (함께하지 않는 포켓몬은 마지막으로 헤어질 때 값)
                 if e["current"]:

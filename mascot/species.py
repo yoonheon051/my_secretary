@@ -3,7 +3,7 @@
 import json
 import os
 
-from .constants import CHAR_JSON, CHAR_PNG, HERE, SAVE_JSON, resource
+from .constants import CHAR_JSON, CHAR_PNG, HERE, SAVE_JSON, local_setting, resource
 
 
 # ---------- 포켓몬 ----------
@@ -92,7 +92,24 @@ def species_defs():
             if given.get("image") and os.path.isfile(os.path.join(folder, given["image"])):
                 spec["image"] = os.path.join(folder, given["image"])
             poses[pn] = spec
-        eyes = [list(map(float, e)) for e in (d.get("eyes") or []) if isinstance(e, (list, tuple)) and len(e) == 4]
+        # 그림이 있을 때만 쓰는 모습: eat 밥 먹을 때, busy Claude 가 작업 중일 때
+        # image 는 PNG 하나, 또는 PNG 여러 장이 든 폴더(이름 순서대로 ms 밀리초마다 넘겨서 움직이는 그림)
+        for pn in ("eat", "busy"):
+            given = (d.get("poses") or {}).get(pn) or {}
+            if not isinstance(given, dict) or not given.get("image"):
+                continue
+            path = os.path.join(folder, given["image"])
+            if os.path.isdir(path):
+                files = [os.path.join(path, f) for f in sorted(os.listdir(path)) if f.lower().endswith(".png")]
+            else:
+                files = [path] if os.path.isfile(path) else []
+            if files:
+                try:
+                    ms = max(30, int(given.get("ms") or 120))
+                except (TypeError, ValueError):
+                    ms = 120
+                poses[pn] = {"frames": files, "ms": ms}
+        eyes =[list(map(float, e)) for e in (d.get("eyes") or []) if isinstance(e, (list, tuple)) and len(e) == 4]
         mouth = d.get("mouth")
         mouth = list(map(float, mouth)) if isinstance(mouth, (list, tuple)) and len(mouth) == 2 else None
         mbox = d.get("mouth_box")
@@ -102,14 +119,19 @@ def species_defs():
             "name": str(d.get("name") or name), "en": str(d.get("en") or ""), "kind": str(d.get("kind") or ""),
             "types": [str(t) for t in (d.get("types") or [])], "desc": str(d.get("desc") or ""), "web": d.get("web"),
             "builtin": False, "ok": os.path.isfile(img), "image": img if os.path.isfile(img) else None,
-            "wings": bool(d.get("wings", False)), "poses": poses, "balls": parse_balls(d.get("balls")),
+            "wings": bool(d.get("wings", False)), "ball": bool(d.get("ball", True)),  # ball: false 면 몬스터볼 없음
+            "poses": poses, "balls": parse_balls(d.get("balls")),
             "cfg": {"eyes": eyes, "mouth": mouth, "mouth_box": mbox, "beak": mouth, "face": d.get("face") or "#f8f7f1",
                     "outline": d.get("outline") or "#22201e"}}
     return defs
 
 
 def peek_species_id(defs):
-    """save.json 에 적힌, 마지막으로 함께하던 포켓몬 (없어졌거나 그림이 없으면 나몰빼미)"""
+    """save.json 에 적힌, 마지막으로 함께하던 포켓몬.
+    없어졌거나 그림이 없으면 settings_local.py 의 DEFAULT_SPECIES (그것도 없으면 나몰빼미)"""
     d = read_json(SAVE_JSON) or {}
     sid = d.get("species")
-    return sid if sid in defs and defs[sid]["ok"] else ROWLET_ID
+    if sid in defs and defs[sid]["ok"]:
+        return sid
+    fallback = local_setting("DEFAULT_SPECIES", ROWLET_ID)
+    return fallback if fallback in defs and defs[fallback]["ok"] else ROWLET_ID

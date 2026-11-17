@@ -74,24 +74,19 @@ class RoamingMixin:
             if not self.at_home():
                 self.go_home()
                 return
-            r = random.random()  # 집에서는 차분하게
             if (self.on_home_floor() and len(self.monitors) > 1 and self.wander_var.get()
                     and random.random() < WANDER_CHANCE):
                 self.visit_other_monitor()  # 가끔 다른 모니터로 놀러 감
-            elif r < 0.70 or self.claude_busy:  # 둥지(볼) 안에서는 걸어 다니지 않고 가만히. Claude 가 일하는 동안엔 안 자고 같이 고민
+            else:  # 둥지(볼)에서는 걸어 다니지 않고 가만히. 혼자서 잠들지는 않음 (재우기를 눌렀을 때만 잠)
                 self.set_state("idle", random.uniform(3, 7))
-            else:
-                self.set_state("sleep", random.uniform(8, 20))
             return
         r = random.random()
-        if r < 0.45:
+        if r < 0.50:
             if random.random() < 0.4:
                 self.dir = -self.dir
             self.set_state("walk", random.uniform(3, 8))
-        elif r < 0.70:
-            self.set_state("idle", random.uniform(2, 5))
         elif r < 0.85:
-            self.set_state("sleep", random.uniform(6, 14))
+            self.set_state("idle", random.uniform(2, 5))
         else:
             self.start_fly()
 

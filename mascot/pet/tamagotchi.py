@@ -74,7 +74,7 @@ class TamagotchiMixin:
             self.heart_until = time.time() + 1.2
         if self.level() > before:
             old_t, new_t = self.ball_tier(before), self.ball_tier()
-            if new_t != old_t:  # 볼 단계가 오름: 빛줄기와 함께 새 볼로
+            if new_t != old_t and self.has_ball:  # 볼 단계가 오름: 빛줄기와 함께 새 볼로
                 self.say(f"친밀도가 Lv.{self.level()}이 됐어요!\n"
                          f"{self.BALL_TIERS[old_t][1]}이 {self.BALL_TIERS[new_t][1]}로 바뀌었어요!", 8)
                 if self.ball_fx is None:
@@ -90,6 +90,8 @@ class TamagotchiMixin:
             self.say("아직 열매가 남아 있어요!", 2)
         elif self.full >= 95:
             self.say("배불러요! 나중에 먹을래요.", 3)
+        elif self.img_eat:  # 밥 먹는 그림이 따로 있는 캐릭터: 열매 없이 그 자리에서 바로 먹음
+            self.eat_now()
         else:
             S = self.S
             if self.roam_var.get():
@@ -100,6 +102,21 @@ class TamagotchiMixin:
                 self.show_bowl()
                 size = int(20 * S)
                 self.items.append(Item(self, self.bowl_cx - size / 2, self.home_area[1], rest_y=self.bowl_rest))
+
+    EAT_SEC = 2.5  # 열매 없이 바로 먹을 때 먹는 시간
+
+    def eat_now(self):
+        if self.state in ("fly", "glide", "flutter", "hover", "fall", "drag"):
+            self.say("날고 있어서 먹을 수 없어요.\n내려앉으면 다시 주세요!", 3)
+            return
+        if self.state == "focus":
+            self.say("쿨쿨... (자는 중이에요. 깨운 다음에 주세요)", 3)
+            return
+        if self.state == "eat":
+            return
+        self.set_state("eat", self.EAT_SEC)
+        if not self.gain(full=30, mood=5, affection=2):
+            self.say(random.choice(["냠냠!", "맛있어요!", "도시락 최고!"]), self.EAT_SEC)
 
     PET_SEC = 3.0  # 놀아주기(쓰다듬기) 시간
 

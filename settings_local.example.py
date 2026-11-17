@@ -8,3 +8,6 @@ NOTION_PAGE_NAME = ""    # Notion 연결 때 허용할 페이지 이름 (안내 
 WEATHER_PLACE = "서울"
 WEATHER_LAT = 37.5665
 WEATHER_LON = 126.9780
+
+# 기본 캐릭터: characters 폴더 안의 폴더 이름 (비워 두면 나몰빼미)
+DEFAULT_SPECIES = "rowlet"

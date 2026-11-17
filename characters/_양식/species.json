@@ -15,11 +15,14 @@
   "face": "#f8f7f1",
   "outline": "#22201e",
   "wings": false,
+  "ball": true,
 
   "poses": {
     "hungry": {"eyes": "squint", "mouth": "open",  "image": null},
     "sleep":  {"eyes": "closed", "mouth": "none",  "image": null},
-    "grumpy": {"eyes": "half",   "mouth": "frown", "image": null}
+    "grumpy": {"eyes": "half",   "mouth": "frown", "image": null},
+    "eat":    {"image": null},
+    "busy":   {"image": null}
   },
 
   "balls": [

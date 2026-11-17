@@ -39,6 +39,10 @@ class BallHomeMixin:
         self.place_home()
         self.make_click_through(b)  # 밥그릇 뒤의 나몰빼미를 클릭할 수 있게
         b.withdraw()
+        self.ball_shown = True
+        if not self.has_ball:  # 볼이 없는 캐릭터: 볼 창은 만들어 두기만 하고 숨김
+            m.withdraw()
+            self.ball_shown = False
         self.root.lift()
 
     def restack(self):
@@ -47,7 +51,8 @@ class BallHomeMixin:
         if self.menu_open:
             return  # 메뉴가 떠 있는 동안 건드리면 메뉴가 뒤로 숨을 수 있음
         order = ([it.win for it in self.items if not it.in_bowl]
-                 + ([self.root, self.ball_win] if self.ball_front else [self.ball_win, self.root])
+                 + ([self.root] if not self.ball_shown else
+                    [self.root, self.ball_win] if self.ball_front else [self.ball_win, self.root])
                  + ([self.bowl_win] if self.bowl_visible else []) + [it.win for it in self.items if it.in_bowl])
         if self.bubble_until:
             order.append(self.bubble)
@@ -330,6 +335,26 @@ class BallHomeMixin:
     def update_ball(self, now):
         """나몰빼미를 볼로 보낼지·꺼낼지 정하고, 둥지에 앉았는지에 맞춰 볼 모양·앞뒤 순서를 갱신"""
         wanted, st = self.ball_wanted(), self.state
+        if not self.has_ball:  # 볼이 없는 캐릭터: 재우기·종료 예고 중에는 제자리에서 자고 (focus), 끝나면 깸
+            if self.ball_shown:
+                self.ball_win.withdraw()
+                self.ball_shown = False
+            self.sink_now = 0
+            if self.in_ball:  # 볼 안에 있던 채로 바뀌었으면 (캐릭터 바꾸기 등) 그 자리에 다시 보이게
+                self.show_pet()
+                self.set_travel_room(False)
+                self.sink_now = 0
+                self.set_state("idle", 1)
+            elif wanted and st in ("idle", "walk", "sleep", "home", "land", "happy", "eat", "goto", "pet"):
+                self.visit = None
+                self.set_state("focus")
+            elif not wanted and st in ("focus", "toball", "capture", "release"):
+                self.set_state("idle", 1)
+            return
+        if not self.ball_shown and not self.hidden:  # 볼이 없는 캐릭터에서 볼이 있는 캐릭터로 바꿨으면 다시 보이게
+            self.ball_win.deiconify()
+            self.ball_shown = True
+            self.ball_sig = None
         if st not in ("capture", "release") and (self.travel_room or self.ball_front):
             self.set_ball_front(False)
             self.set_travel_room(False)

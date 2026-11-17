@@ -78,7 +78,8 @@ class DrawingMixin:
                f // 2 if st in ("happy", "pet") else 0,              # 반짝이는 별, 쓰다듬는 손
                (f // 9) % 4 if self.claude_busy else -1,             # 고민 구름의 점
                int(now * 30) if now < self.heart_until else 0,       # 떠오르는 하트
-               int(self.travel * 30) if st in ("capture", "release") else -1)  # 볼로 빨려 들어가는 모습
+               int(self.travel * 30) if st in ("capture", "release") else -1,  # 볼로 빨려 들어가는 모습
+               (self.extra_pose(now) or (None, -1))[:2])                      # 따로 준 그림의 몇 번째 장
         if sig == self.last_sig:
             return False
         self.last_sig = sig
@@ -130,8 +131,8 @@ class DrawingMixin:
 
     def draw_thinking(self):
         """Claude 가 작업 중일 때: 머리 옆에 생각 구름, 안의 점 세 개가 차례로 진해짐"""
-        if not self.claude_busy or self.state in ("capture", "release"):
-            return
+        if not self.claude_busy or self.state in ("capture", "release") or (self.extra_pose() or ("",))[0] == "busy":
+            return  # 작업 중 그림이 따로 있으면 그 그림으로 알려 줌 (구름 없이)
         c, S = self.canvas, self.S
         side = -1 if self.dir > 0 else 1  # 바라보는 반대쪽 머리 위
         hx, top = self.W / 2, self.head
@@ -334,6 +335,26 @@ class DrawingMixin:
         else:  # flat
             c.create_line(x - 4 * k, y, x + 4 * k, y, fill=line, width=w, capstyle="round")
 
+    def extra_pose(self, now=None):
+        """따로 준 그림으로 그릴 모습: 밥 먹는 중이면 eat, Claude 가 작업 중이면 busy.
+        (이름, 프레임 번호, (왼쪽 볼 때 그림, 오른쪽 볼 때 그림)). 그림이 없으면 None"""
+        if self.state == "eat":
+            name = "eat"
+        elif self.claude_busy and self.state not in ("sleep", "focus", "pet", "capture", "release"):
+            name = "busy"
+        else:
+            return None
+        frames = self.img_eat if name == "eat" else self.img_busy
+        if not frames:
+            return None
+        i = int((now or time.time()) * 1000 / self.pose_ms.get(name, 120)) % len(frames)
+        return name, i, frames[i]
+
+    def animated_pose(self):
+        """지금 여러 장짜리 그림을 넘기며 보여 주는 중인지"""
+        e = self.extra_pose()
+        return bool(e) and len(self.img_eat if e[0] == "eat" else self.img_busy) > 1
+
     def draw_image(self, wings, eyes, zz):
         c, S, cfg = self.canvas, self.S, self.cfg
         ox, oy = self.mx, self.mt
@@ -343,6 +364,12 @@ class DrawingMixin:
 
         flip = self.dir > 0
         mouth = None
+        extra = self.extra_pose()
+        if extra:  # 밥 먹는·Claude 작업 중 그림이 따로 있으면 그 그림 (발밑·가운데 맞춤)
+            img = extra[2][1 if flip else 0]
+            c.create_image(ox + (iw - img.width()) / 2, oy + ih - img.height(), anchor="nw", image=img)
+            self.draw_umbrella(ox, oy, iw, ih, line)
+            return
         if zz:
             if self.img_sleep:
                 self.draw_sleeping(ox, oy, flip, line)
