@@ -1,7 +1,6 @@
 """그리기"""
 
 import math
-import os
 import random
 import time
 from datetime import datetime
@@ -12,11 +11,11 @@ from ..constants import (
     EYE,
     FOOT,
     GRUMPY_AT,
-    HERE,
     HUNGRY_AT,
     KEY,
     LEAF,
     POSE_INFO,
+    data_file,
 )
 from ..sprites import (
     WING_ANGLES,
@@ -476,7 +475,7 @@ class DrawingMixin:
         def log_error(*exc):  # pythonw 는 오류를 보여 주지 않아서 error.log 에 남김
             import traceback
             try:
-                with open(os.path.join(HERE, "error.log"), "a", encoding="utf-8") as fp:
+                with open(data_file("error.log"), "a", encoding="utf-8") as fp:
                     fp.write(f"--- {datetime.now():%Y-%m-%d %H:%M:%S}\n{''.join(traceback.format_exception(*exc))}")
             except OSError:
                 pass

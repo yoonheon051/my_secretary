@@ -122,7 +122,7 @@ class NotificationsMixin:
                 with open(SLACK_MANIFEST, encoding="utf-8") as fp:
                     text = fp.read()
             except OSError:
-                warn.config(text="slack_manifest.yaml 파일이 없어요.")
+                warn.config(text="data 폴더에 slack_manifest.yaml 파일이 없어요.")
                 return
             d.clipboard_clear()
             d.clipboard_append(text)

@@ -22,7 +22,8 @@
 
 실행:  pythonw secretary.py        (콘솔 창 없이. run_secretary.bat 이 이걸 실행함)
 
-그림: character.png (기본), character_sleep / _hungry / _grumpy.png (모습별).
+그림: characters\rowlet 폴더의 character.png (기본), character_sleep / _hungry / _grumpy.png (모습별).
+개인 데이터(save.json, 토큰 *.dat, error.log 등)는 data 폴더.
 character.json 에 눈 위치를 적어 두면 깜빡이기/자기 표정이 그림 위에 덧그려집니다.
 
 파일 구성 (수정할 때 찾아가기 편하게 나눠 둠):

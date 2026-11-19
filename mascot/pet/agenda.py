@@ -76,7 +76,7 @@ class AgendaMixin:
 
     def gcal_connect(self):
         if not self.gcal.has_client():
-            self.say("client_secret.json 이 필요해요.\nGoogle Cloud Console 에서 받은 파일을\n프로그램 폴더에 넣어 주세요.", 8)
+            self.say("client_secret.json 이 필요해요.\nGoogle Cloud Console 에서 받은 파일을\n프로그램 폴더 안 data 폴더에 넣어 주세요.", 8)
             return
         self.say("브라우저에서 Google 계정으로\n'허용'을 눌러 주세요.", 8)
         self.gcal_run("auth", self.gcal.authorize)

@@ -17,10 +17,40 @@ TICK_MS = 33        # 날거나 떨어질 때 화면 갱신 간격 (약 30번/�
 WALK_TICK_MS = 50   # 걸을 때 (약 20번/초, 한 번에 그만큼 더 걸어서 속도는 같음)
 CALM_TICK_MS = 150  # 가만히 서 있거나 잘 때 (CPU 절약)
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 프로젝트 폴더 (mascot 폴더의 한 칸 위)
+# 개인 데이터(토큰·저장·로그)는 data 폴더, 기본 캐릭터(나몰빼미) 그림은 characters\rowlet 폴더
+DATA_DIR = os.path.join(HERE, "data")
+ROWLET_DIR = os.path.join(HERE, "characters", "rowlet")
+_DATA_FILES = ("save.json", "holidays.json", "error.log", "client_secret.json", "slack_manifest.yaml",
+               "calendar_token.dat", "notion_client.dat", "notion_token.dat", "mail.dat", "slack_token.dat")
+_ROWLET_FILES = ("character.png", "character.json", "character_sleep.png", "character_hungry.png",
+                 "character_grumpy.png")
+
+
+def _move_old_files():
+    """예전처럼 프로젝트 폴더 바로 아래에 있던 파일을 새 자리로 옮김 (새 자리에 이미 있으면 그대로 둠)"""
+    for folder, names in ((DATA_DIR, _DATA_FILES), (ROWLET_DIR, _ROWLET_FILES)):
+        for name in names:
+            old, new = os.path.join(HERE, name), os.path.join(folder, name)
+            if os.path.isfile(old) and not os.path.exists(new):
+                try:
+                    os.makedirs(folder, exist_ok=True)
+                    os.replace(old, new)
+                except OSError:
+                    pass
+    os.makedirs(DATA_DIR, exist_ok=True)
+
+
+_move_old_files()
 
 
 def resource(name):
-    return os.path.join(HERE, name)
+    """기본 캐릭터(나몰빼미) 그림 파일 경로"""
+    return os.path.join(ROWLET_DIR, name)
+
+
+def data_file(name):
+    """개인 데이터 파일 경로 (data 폴더)"""
+    return os.path.join(DATA_DIR, name)
 
 
 def _load_local():
@@ -45,7 +75,7 @@ def local_setting(key, default=""):
 
 CHAR_PNG = resource("character.png")
 CHAR_JSON = resource("character.json")
-SAVE_JSON = os.path.join(HERE, "save.json")
+SAVE_JSON = data_file("save.json")
 
 # 다마고치 수치 (0~100). 1분마다 줄어드는 양: 배부름은 약 10시간, 기분은 약 8시간이면 바닥
 FULL_DECAY = 100 / 600
@@ -67,7 +97,7 @@ WANDER_CHANCE = 0.02     # 집에서 다음 행동을 고를 때 다른 모니�
 # 휴일에는 배부름·기분이 줄지 않음 (주말 + Google 공휴일 캘린더 + 내 휴가 일정)
 HOLIDAY_ICS = ("https://calendar.google.com/calendar/ical/"
                "ko.south_korea%23holiday%40group.v.calendar.google.com/public/basic.ics")
-HOLIDAY_CACHE = os.path.join(HERE, "holidays.json")  # 인터넷이 안 될 때를 위해 받아 둔 휴일 목록
+HOLIDAY_CACHE = data_file("holidays.json")  # 인터넷이 안 될 때를 위해 받아 둔 휴일 목록
 HOLIDAY_REFRESH_SEC = 6 * 3600
 VACATION_MARK = "NAMOL-연차:"  # 오전 브리핑 알림 메일 본문에서 내 연차 날짜가 적힌 줄의 시작
 
@@ -89,16 +119,16 @@ RAIN_CHECK_MIN = 10       # 지금 비가 오는지 확인하는 간격(분). �
 DAILY_CHEERS = [("12:25", "12:35", "점심시간이다!"),
                 ("18:25", "18:35", "퇴근시간이다!")]
 
-# Google Calendar API (OAuth): client_secret.json 을 폴더에 두고 우클릭 → 'Google 캘린더 연결'
-GCAL_CLIENT = os.path.join(HERE, "client_secret.json")  # Google Cloud Console 에서 받은 '데스크톱 앱' 클라이언트
-GCAL_TOKEN = os.path.join(HERE, "calendar_token.dat")   # 로그인 후 받은 토큰 (Windows DPAPI 로 암호화)
+# Google Calendar API (OAuth): client_secret.json 을 data 폴더에 두고 우클릭 → 'Google 캘린더 연결'
+GCAL_CLIENT = data_file("client_secret.json")  # Google Cloud Console 에서 받은 '데스크톱 앱' 클라이언트
+GCAL_TOKEN = data_file("calendar_token.dat")   # 로그인 후 받은 토큰 (Windows DPAPI 로 암호화)
 GCAL_SCOPE = "https://www.googleapis.com/auth/calendar.events"
 GCAL_EVENTS = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
 GCAL_SYNC_SEC = 6 * 3600  # 연차 일정을 다시 읽어 오는 간격
 
 # Notion API (OAuth 공개 통합): 우클릭 → 'Notion 연결'에서 클라이언트 ID·시크릿을 넣고 브라우저에서 허용
-NOTION_CLIENT = os.path.join(HERE, "notion_client.dat")  # 클라이언트 ID·시크릿 (DPAPI 암호화)
-NOTION_TOKEN = os.path.join(HERE, "notion_token.dat")    # 허용 후 받은 토큰 (DPAPI 암호화)
+NOTION_CLIENT = data_file("notion_client.dat")  # 클라이언트 ID·시크릿 (DPAPI 암호화)
+NOTION_TOKEN = data_file("notion_token.dat")    # 허용 후 받은 토큰 (DPAPI 암호화)
 NOTION_PORT = 8742
 NOTION_REDIRECT = f"http://localhost:{NOTION_PORT}/notion"  # 통합 설정의 '리디렉션 URI'에 이 값 그대로
 NOTION_API = "https://api.notion.com/v1"
@@ -125,7 +155,7 @@ CLAUDE_STATUS = os.path.join(os.environ.get("LOCALAPPDATA") or os.path.expanduse
 CLAUDE_CHECK_SEC = 0.5
 CLAUDE_STALE_SEC = 6 * 3600  # 이보다 오래 소식 없는 '작업 중' 세션은 무시
 
-MAIL_CFG = os.path.join(HERE, "mail.dat")  # Gmail 주소 + 앱 비밀번호 (Windows DPAPI 로 암호화)
+MAIL_CFG = data_file("mail.dat")  # Gmail 주소 + 앱 비밀번호 (Windows DPAPI 로 암호화)
 MAIL_POLL_SEC = 60
 GMAIL_URL = "https://mail.google.com/mail/u/0/#inbox"
 APP_PASSWORD_URL = "https://myaccount.google.com/apppasswords"
@@ -150,8 +180,8 @@ LINES = [
 
 
 # ---------- Slack 알림 ----------
-SLACK_TOKEN = os.path.join(HERE, "slack_token.dat")  # 사용자 토큰 xoxp-... (DPAPI 암호화)
-SLACK_MANIFEST = os.path.join(HERE, "slack_manifest.yaml")  # Slack 앱 만들 때 붙여넣는 설정 (읽기 권한만)
+SLACK_TOKEN = data_file("slack_token.dat")  # 사용자 토큰 xoxp-... (DPAPI 암호화)
+SLACK_MANIFEST = data_file("slack_manifest.yaml")  # Slack 앱 만들 때 붙여넣는 설정 (읽기 권한만)
 SLACK_POLL_SEC = 60
 SLACK_DM_ACTIVE_DAYS = 14   # 이 기간 안에 대화가 있었던 DM 방만 매번 확인 (API 호출을 줄이려고)
 SLACK_DM_REFRESH_SEC = 1800  # DM 방 목록을 다시 읽는 간격
